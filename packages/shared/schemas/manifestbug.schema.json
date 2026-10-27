@@ -1,0 +1,64 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "class": {
+      "minLength": 1,
+      "title": "Class",
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "verified": {
+      "default": false,
+      "title": "Verified",
+      "type": "boolean"
+    },
+    "expected_signals": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Expected Signals",
+      "type": "array"
+    },
+    "affected_journeys": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Affected Journeys",
+      "type": "array"
+    },
+    "severity": {
+      "anyOf": [
+        {
+          "enum": [
+            "P0",
+            "P1",
+            "P2",
+            "P3"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Severity"
+    }
+  },
+  "required": [
+    "id",
+    "class",
+    "title"
+  ],
+  "title": "ManifestBug",
+  "type": "object"
+}

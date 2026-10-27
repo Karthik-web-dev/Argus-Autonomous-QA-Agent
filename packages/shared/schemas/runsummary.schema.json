@@ -1,0 +1,908 @@
+{
+  "$defs": {
+    "ConsoleEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "enum": [
+            "debug",
+            "info",
+            "warning",
+            "error"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "timestamp": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timestamp"
+        },
+        "step_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Index"
+        }
+      },
+      "required": [
+        "level",
+        "message"
+      ],
+      "title": "ConsoleEvent",
+      "type": "object"
+    },
+    "ElementCatalogEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "state": {
+          "additionalProperties": true,
+          "title": "State",
+          "type": "object"
+        },
+        "semantic_locator": {
+          "minLength": 1,
+          "title": "Semantic Locator",
+          "type": "string"
+        },
+        "form_group": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Form Group"
+        },
+        "visible": {
+          "title": "Visible",
+          "type": "boolean"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "in_viewport": {
+          "title": "In Viewport",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "semantic_locator",
+        "visible",
+        "enabled",
+        "in_viewport"
+      ],
+      "title": "ElementCatalogEntry",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finding Id"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "title": "Steps",
+          "type": "array"
+        },
+        "expected": {
+          "default": "",
+          "title": "Expected",
+          "type": "string"
+        },
+        "actual": {
+          "default": "",
+          "title": "Actual",
+          "type": "string"
+        },
+        "failure_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "assertion",
+                "interaction",
+                "timeout",
+                "setup"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Kind"
+        },
+        "failed_step_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failed Step Index"
+        },
+        "network": {
+          "items": {
+            "$ref": "#/$defs/NetworkEvent"
+          },
+          "title": "Network",
+          "type": "array"
+        },
+        "console": {
+          "items": {
+            "$ref": "#/$defs/ConsoleEvent"
+          },
+          "title": "Console",
+          "type": "array"
+        },
+        "screenshots": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Screenshots",
+          "type": "array"
+        },
+        "step_evidence": {
+          "items": {
+            "$ref": "#/$defs/StepEvidence"
+          },
+          "title": "Step Evidence",
+          "type": "array"
+        },
+        "dom_snapshot_after": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dom Snapshot After"
+        },
+        "animation_timeline": {
+          "anyOf": [
+            {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Animation Timeline"
+        },
+        "reproduction": {
+          "$ref": "#/$defs/ReproductionResult"
+        },
+        "trace_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trace Path"
+        },
+        "video_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Video Path"
+        }
+      },
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "oracle_id": {
+          "minLength": 1,
+          "title": "Oracle Id",
+          "type": "string"
+        },
+        "symptom_signature": {
+          "minLength": 1,
+          "title": "Symptom Signature",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "title": "Steps",
+          "type": "array"
+        },
+        "evidence_ref": {
+          "minLength": 1,
+          "title": "Evidence Ref",
+          "type": "string"
+        },
+        "expected": {
+          "default": "",
+          "title": "Expected",
+          "type": "string"
+        },
+        "actual": {
+          "default": "",
+          "title": "Actual",
+          "type": "string"
+        },
+        "affected_paths": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Affected Paths",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "oracle_id",
+        "symptom_signature",
+        "confidence",
+        "evidence_ref"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "NetworkEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "method": {
+          "default": "GET",
+          "title": "Method",
+          "type": "string"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "maximum": 599,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        },
+        "failed": {
+          "default": false,
+          "title": "Failed",
+          "type": "boolean"
+        },
+        "timestamp": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timestamp"
+        },
+        "step_index": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Index"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "title": "NetworkEvent",
+      "type": "object"
+    },
+    "ReproductionResult": {
+      "additionalProperties": false,
+      "properties": {
+        "attempts": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Attempts",
+          "type": "integer"
+        },
+        "successes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Successes",
+          "type": "integer"
+        },
+        "contexts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Contexts",
+          "type": "array"
+        }
+      },
+      "title": "ReproductionResult",
+      "type": "object"
+    },
+    "RunMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "journeys": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Journeys",
+          "type": "integer"
+        },
+        "passed": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Passed",
+          "type": "integer"
+        },
+        "failed": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Failed",
+          "type": "integer"
+        },
+        "raw_findings": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Raw Findings",
+          "type": "integer"
+        }
+      },
+      "title": "RunMetrics",
+      "type": "object"
+    },
+    "Spec": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "journeys": {
+          "items": {
+            "$ref": "#/$defs/TestCase"
+          },
+          "title": "Journeys",
+          "type": "array"
+        },
+        "claims": {
+          "items": {
+            "$ref": "#/$defs/SpecClaim"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "entities": {
+          "items": {
+            "$ref": "#/$defs/SpecEntity"
+          },
+          "title": "Entities",
+          "type": "array"
+        },
+        "validation_rules": {
+          "items": {
+            "$ref": "#/$defs/ValidationRule"
+          },
+          "title": "Validation Rules",
+          "type": "array"
+        },
+        "auth_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Auth Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "description"
+      ],
+      "title": "Spec",
+      "type": "object"
+    },
+    "SpecClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        },
+        "priority": {
+          "default": "normal",
+          "enum": [
+            "critical",
+            "high",
+            "normal",
+            "low"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "journey_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Journey Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "statement"
+      ],
+      "title": "SpecClaim",
+      "type": "object"
+    },
+    "SpecEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "SpecEntity",
+      "type": "object"
+    },
+    "Step": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "goto",
+            "click",
+            "fill",
+            "hover",
+            "wait",
+            "assert",
+            "press",
+            "type_text",
+            "double_click",
+            "back",
+            "reload",
+            "set_viewport",
+            "set_offline",
+            "throttle_network",
+            "assert_no_broken_images",
+            "assert_internal_links",
+            "assert_no_console_errors",
+            "assert_invalid",
+            "assert_password_masked",
+            "assert_value_length",
+            "assert_numeric_value",
+            "assert_input_value",
+            "assert_no_new_console_errors",
+            "assert_no_unsafe_markup",
+            "assert_empty_state",
+            "assert_no_text_overflow",
+            "assert_named_control",
+            "assert_pagination_boundaries",
+            "assert_protected_route",
+            "assert_idor_isolation",
+            "assert_sort_stability",
+            "assert_numeric_boundary",
+            "assert_double_submit",
+            "assert_mobile_layout",
+            "assert_back_mid_flow",
+            "assert_refresh_mid_flow",
+            "assert_keyboard_submit"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "locator": {
+          "default": "",
+          "title": "Locator",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "exclusiveMinimum": 0,
+          "maximum": 120000,
+          "title": "Timeout Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "title": "Step",
+      "type": "object"
+    },
+    "StepEvidence": {
+      "additionalProperties": false,
+      "description": "Per-step browser captures, with zero-based indexing into Evidence.steps.",
+      "properties": {
+        "step_index": {
+          "minimum": 0,
+          "title": "Step Index",
+          "type": "integer"
+        },
+        "screenshot": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Screenshot"
+        },
+        "element_screenshot": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Element Screenshot"
+        },
+        "dom_snapshot": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dom Snapshot"
+        }
+      },
+      "required": [
+        "step_index"
+      ],
+      "title": "StepEvidence",
+      "type": "object"
+    },
+    "TestCase": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "journey": {
+          "minLength": 1,
+          "title": "Journey",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "title": "Steps",
+          "type": "array"
+        },
+        "expected": {
+          "default": "",
+          "title": "Expected",
+          "type": "string"
+        },
+        "claim_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Claim Ids",
+          "type": "array"
+        },
+        "category": {
+          "default": "journey",
+          "enum": [
+            "journey",
+            "edge_case"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "source": {
+          "default": "spec",
+          "enum": [
+            "spec",
+            "playbook"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "journey",
+        "description"
+      ],
+      "title": "TestCase",
+      "type": "object"
+    },
+    "TestResult": {
+      "additionalProperties": false,
+      "properties": {
+        "test_id": {
+          "minLength": 1,
+          "title": "Test Id",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "INCONCLUSIVE"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "duration_ms": {
+          "minimum": 0,
+          "title": "Duration Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "test_id",
+        "verdict",
+        "evidence",
+        "duration_ms"
+      ],
+      "title": "TestResult",
+      "type": "object"
+    },
+    "ValidationRule": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "minLength": 1,
+          "title": "Field",
+          "type": "string"
+        },
+        "rule": {
+          "minLength": 1,
+          "title": "Rule",
+          "type": "string"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        }
+      },
+      "required": [
+        "field",
+        "rule"
+      ],
+      "title": "ValidationRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "artifact_dir": {
+      "minLength": 1,
+      "title": "Artifact Dir",
+      "type": "string"
+    },
+    "target_url": {
+      "format": "uri",
+      "maxLength": 2083,
+      "minLength": 1,
+      "title": "Target Url",
+      "type": "string"
+    },
+    "spec": {
+      "title": "Spec",
+      "type": "string"
+    },
+    "accessibility_snapshot": {
+      "default": "",
+      "title": "Accessibility Snapshot",
+      "type": "string"
+    },
+    "parsed_spec": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Spec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "discovered_elements": {
+      "items": {
+        "$ref": "#/$defs/ElementCatalogEntry"
+      },
+      "title": "Discovered Elements",
+      "type": "array"
+    },
+    "test_cases": {
+      "items": {
+        "$ref": "#/$defs/TestCase"
+      },
+      "title": "Test Cases",
+      "type": "array"
+    },
+    "test_results": {
+      "items": {
+        "$ref": "#/$defs/TestResult"
+      },
+      "title": "Test Results",
+      "type": "array"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "metrics": {
+      "$ref": "#/$defs/RunMetrics"
+    }
+  },
+  "required": [
+    "run_id",
+    "artifact_dir",
+    "target_url",
+    "spec"
+  ],
+  "title": "RunSummary",
+  "type": "object"
+}

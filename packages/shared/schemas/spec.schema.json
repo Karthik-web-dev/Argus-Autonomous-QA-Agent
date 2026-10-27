@@ -1,0 +1,292 @@
+{
+  "$defs": {
+    "SpecClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        },
+        "priority": {
+          "default": "normal",
+          "enum": [
+            "critical",
+            "high",
+            "normal",
+            "low"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "journey_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Journey Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "statement"
+      ],
+      "title": "SpecClaim",
+      "type": "object"
+    },
+    "SpecEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "SpecEntity",
+      "type": "object"
+    },
+    "Step": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "goto",
+            "click",
+            "fill",
+            "hover",
+            "wait",
+            "assert",
+            "press",
+            "type_text",
+            "double_click",
+            "back",
+            "reload",
+            "set_viewport",
+            "set_offline",
+            "throttle_network",
+            "assert_no_broken_images",
+            "assert_internal_links",
+            "assert_no_console_errors",
+            "assert_invalid",
+            "assert_password_masked",
+            "assert_value_length",
+            "assert_numeric_value",
+            "assert_input_value",
+            "assert_no_new_console_errors",
+            "assert_no_unsafe_markup",
+            "assert_empty_state",
+            "assert_no_text_overflow",
+            "assert_named_control",
+            "assert_pagination_boundaries",
+            "assert_protected_route",
+            "assert_idor_isolation",
+            "assert_sort_stability",
+            "assert_numeric_boundary",
+            "assert_double_submit",
+            "assert_mobile_layout",
+            "assert_back_mid_flow",
+            "assert_refresh_mid_flow",
+            "assert_keyboard_submit"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "locator": {
+          "default": "",
+          "title": "Locator",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "exclusiveMinimum": 0,
+          "maximum": 120000,
+          "title": "Timeout Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "title": "Step",
+      "type": "object"
+    },
+    "TestCase": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "journey": {
+          "minLength": 1,
+          "title": "Journey",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/Step"
+          },
+          "title": "Steps",
+          "type": "array"
+        },
+        "expected": {
+          "default": "",
+          "title": "Expected",
+          "type": "string"
+        },
+        "claim_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Claim Ids",
+          "type": "array"
+        },
+        "category": {
+          "default": "journey",
+          "enum": [
+            "journey",
+            "edge_case"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "source": {
+          "default": "spec",
+          "enum": [
+            "spec",
+            "playbook"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "journey",
+        "description"
+      ],
+      "title": "TestCase",
+      "type": "object"
+    },
+    "ValidationRule": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "minLength": 1,
+          "title": "Field",
+          "type": "string"
+        },
+        "rule": {
+          "minLength": 1,
+          "title": "Rule",
+          "type": "string"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        }
+      },
+      "required": [
+        "field",
+        "rule"
+      ],
+      "title": "ValidationRule",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "minLength": 1,
+      "title": "Description",
+      "type": "string"
+    },
+    "journeys": {
+      "items": {
+        "$ref": "#/$defs/TestCase"
+      },
+      "title": "Journeys",
+      "type": "array"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/SpecClaim"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "entities": {
+      "items": {
+        "$ref": "#/$defs/SpecEntity"
+      },
+      "title": "Entities",
+      "type": "array"
+    },
+    "validation_rules": {
+      "items": {
+        "$ref": "#/$defs/ValidationRule"
+      },
+      "title": "Validation Rules",
+      "type": "array"
+    },
+    "auth_requirements": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Auth Requirements",
+      "type": "array"
+    }
+  },
+  "required": [
+    "description"
+  ],
+  "title": "Spec",
+  "type": "object"
+}

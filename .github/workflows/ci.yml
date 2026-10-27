@@ -1,0 +1,41 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  skeleton-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -e ./packages/shared
+      - run: python -m pip install -e ./packages/agent
+      - run: timeout 10s make skeleton
+  agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install -e ./packages/shared
+      - run: python -m pip install -e "./packages/agent[dev]"
+      - run: python -m playwright install --with-deps chromium firefox webkit
+      - run: python -m compileall -q packages/agent/src packages/shared/src
+      - run: ruff check packages/agent/src packages/shared/src
+      - run: python -m pytest packages/shared/tests packages/agent/tests
+      - run: make check-schemas
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @argus/ui build
+      - run: pnpm --filter @argus/ui lint

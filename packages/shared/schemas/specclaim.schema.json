@@ -1,0 +1,39 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "statement": {
+      "minLength": 1,
+      "title": "Statement",
+      "type": "string"
+    },
+    "priority": {
+      "default": "normal",
+      "enum": [
+        "critical",
+        "high",
+        "normal",
+        "low"
+      ],
+      "title": "Priority",
+      "type": "string"
+    },
+    "journey_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Journey Ids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "statement"
+  ],
+  "title": "SpecClaim",
+  "type": "object"
+}

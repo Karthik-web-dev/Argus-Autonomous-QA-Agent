@@ -1,0 +1,68 @@
+[
+  {
+    "id": "tc-favorite-double",
+    "journey": "Favorite an article",
+    "description": "One favorite action increments the count once.",
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Favorite]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "expected": "The count increases by one.",
+    "category": "journey",
+    "source": "spec"
+  },
+  {
+    "id": "tc-pagination-flaky",
+    "journey": "Paginate the global feed",
+    "description": "The next feed page starts with the next unique article.",
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Next page]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "expected": "Page two does not repeat the final item from page one.",
+    "category": "edge_case",
+    "source": "playbook"
+  },
+  {
+    "id": "tc-analytics-noise",
+    "journey": "Favorite article analytics",
+    "description": "A failing analytics beacon must not undo the favorite action.",
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Favorite]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "expected": "The favorite state is saved even if analytics is unavailable.",
+    "category": "edge_case",
+    "source": "spec"
+  }
+]

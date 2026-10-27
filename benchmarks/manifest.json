@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "benchmark": "argus-stage-2",
+  "status": "placeholder_ground_truth",
+  "bugs": [
+    {"id":"F1","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F2","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F3","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F4","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F5","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F6","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F7","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F8","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F9","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F10","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F11","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F12","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F13","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F14","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"F15","class":"functional","title":"Unspecified functional defect","verified":false},
+    {"id":"N1","class":"network","title":"API 500 behind success toast","verified":false},
+    {"id":"N2","class":"network","title":"Stale data after update","verified":false},
+    {"id":"N3","class":"network","title":"Double-submit race","verified":false},
+    {"id":"N4","class":"network","title":"Out-of-order responses","verified":false},
+    {"id":"N5","class":"network","title":"Silent failure without response or UI feedback","verified":false},
+    {"id":"A1","class":"accessibility_temporal","title":"Hover-only control unreachable by keyboard","verified":false},
+    {"id":"A2","class":"accessibility_temporal","title":"Stuck loading animation","verified":false},
+    {"id":"A3","class":"accessibility_temporal","title":"Silent DOM update without aria-live","verified":false},
+    {"id":"A4","class":"accessibility_temporal","title":"Focus behavior issue scoped by widget","verified":false},
+    {"id":"A5","class":"accessibility_temporal","title":"Broken aria-expanded on reveal trigger","verified":false}
+  ]
+}

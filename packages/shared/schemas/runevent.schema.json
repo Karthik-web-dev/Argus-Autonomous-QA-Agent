@@ -1,0 +1,66 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "ts": {
+      "format": "date-time",
+      "title": "Ts",
+      "type": "string"
+    },
+    "agent": {
+      "minLength": 1,
+      "title": "Agent",
+      "type": "string"
+    },
+    "correlation_id": {
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "run_started",
+        "phase_changed",
+        "agent_active",
+        "action",
+        "page_discovered",
+        "test_result",
+        "finding_created",
+        "gate_result",
+        "verification_result",
+        "bug_reported",
+        "coverage_update",
+        "scoreboard_update",
+        "budget_update",
+        "llm_call",
+        "error",
+        "run_completed"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "run_id",
+    "agent",
+    "correlation_id",
+    "type"
+  ],
+  "title": "RunEvent",
+  "type": "object"
+}

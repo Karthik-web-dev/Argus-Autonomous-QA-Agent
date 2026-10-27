@@ -1,0 +1,52 @@
+{
+  "additionalProperties": false,
+  "description": "Per-step browser captures, with zero-based indexing into Evidence.steps.",
+  "properties": {
+    "step_index": {
+      "minimum": 0,
+      "title": "Step Index",
+      "type": "integer"
+    },
+    "screenshot": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Screenshot"
+    },
+    "element_screenshot": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Element Screenshot"
+    },
+    "dom_snapshot": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dom Snapshot"
+    }
+  },
+  "required": [
+    "step_index"
+  ],
+  "title": "StepEvidence",
+  "type": "object"
+}

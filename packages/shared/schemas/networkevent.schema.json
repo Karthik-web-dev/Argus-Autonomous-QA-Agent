@@ -1,0 +1,63 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "url": {
+      "title": "Url",
+      "type": "string"
+    },
+    "method": {
+      "default": "GET",
+      "title": "Method",
+      "type": "string"
+    },
+    "status": {
+      "anyOf": [
+        {
+          "maximum": 599,
+          "minimum": 100,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Status"
+    },
+    "failed": {
+      "default": false,
+      "title": "Failed",
+      "type": "boolean"
+    },
+    "timestamp": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Timestamp"
+    },
+    "step_index": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Step Index"
+    }
+  },
+  "required": [
+    "url"
+  ],
+  "title": "NetworkEvent",
+  "type": "object"
+}

@@ -1,0 +1,31 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "journeys": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Journeys",
+      "type": "integer"
+    },
+    "passed": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Passed",
+      "type": "integer"
+    },
+    "failed": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Failed",
+      "type": "integer"
+    },
+    "raw_findings": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Raw Findings",
+      "type": "integer"
+    }
+  },
+  "title": "RunMetrics",
+  "type": "object"
+}

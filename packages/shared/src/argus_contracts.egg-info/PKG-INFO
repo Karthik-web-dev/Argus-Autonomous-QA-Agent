@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: argus-contracts
+Version: 0.1.0
+Summary: Canonical Pydantic contracts for Argus services and clients
+Requires-Python: >=3.11
+Requires-Dist: pydantic<3,>=2.8

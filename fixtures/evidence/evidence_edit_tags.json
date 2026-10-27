@@ -1,0 +1,58 @@
+{
+  "finding_id": "finding-edit-tags-sample",
+  "steps": [
+    {
+      "action": "goto",
+      "locator": "",
+      "value": "/editor/example",
+      "timeout_ms": 5000
+    },
+    {
+      "action": "fill",
+      "locator": "role=textbox[name=Article Body]",
+      "value": "Edited article body",
+      "timeout_ms": 5000
+    },
+    {
+      "action": "click",
+      "locator": "role=button[name=Publish Article]",
+      "value": null,
+      "timeout_ms": 5000
+    }
+  ],
+  "expected": "All article tags remain attached after an edit.",
+  "actual": "The final tag is missing after the update.",
+  "network": [
+    {
+      "url": "/api/articles/argus-fixture",
+      "method": "POST",
+      "status": 200,
+      "failed": false,
+      "timestamp": "T+0.8s"
+    }
+  ],
+  "console": [
+    {
+      "level": "info",
+      "message": "Navigation completed",
+      "timestamp": "T+0.9s"
+    }
+  ],
+  "screenshots": [
+    "artifacts/BUG-003/screenshots/article-after-edit.png"
+  ],
+  "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+  "animation_timeline": null,
+  "reproduction": {
+    "attempts": 5,
+    "successes": 5,
+    "contexts": [
+      "fresh",
+      "fresh",
+      "fresh",
+      "fresh",
+      "fresh"
+    ]
+  },
+  "trace_path": "artifacts/finding-edit-tags-sample/trace.zip"
+}

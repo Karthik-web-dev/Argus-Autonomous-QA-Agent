@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "argus-agent"
+version = "0.1.0"
+description = "Evidence-first autonomous QA agent for web applications"
+requires-python = ">=3.11"
+dependencies = ["argus-contracts", "playwright==1.63.0", "typer>=0.12", "rich>=13.8", "fastapi>=0.115", "uvicorn>=0.30", "websockets>=12", "httpx>=0.27", "python-dotenv>=1.0", "jsonschema>=4.23", "langgraph>=1.0,<2", "langgraph-checkpoint-sqlite>=3.1,<4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "httpx>=0.27", "ruff>=0.7", "pre-commit>=4.2"]
+
+[project.scripts]
+argus = "argus.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+argus-contracts = { path = "../shared", editable = true }
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

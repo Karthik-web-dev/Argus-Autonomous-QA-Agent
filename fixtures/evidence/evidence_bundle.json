@@ -1,0 +1,52 @@
+{
+  "finding_id": "finding-true",
+  "steps": [
+    {
+      "action": "goto",
+      "locator": "",
+      "value": "/feed",
+      "timeout_ms": 5000
+    },
+    {
+      "action": "click",
+      "locator": "role=button[name=Favorite]",
+      "value": null,
+      "timeout_ms": 5000
+    }
+  ],
+  "expected": "Favorite count increases by one.",
+  "actual": "The UI count increased by two after a single click.",
+  "network": [
+    {
+      "url": "/api/articles/argus-fixture/favorite",
+      "method": "POST",
+      "status": 200,
+      "failed": false,
+      "timestamp": "T+0.8s"
+    }
+  ],
+  "console": [
+    {
+      "level": "info",
+      "message": "Navigation completed",
+      "timestamp": "T+0.9s"
+    }
+  ],
+  "screenshots": [
+    "artifacts/finding-true/screenshots/after-click.png"
+  ],
+  "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+  "animation_timeline": null,
+  "reproduction": {
+    "attempts": 5,
+    "successes": 5,
+    "contexts": [
+      "fresh",
+      "fresh",
+      "fresh",
+      "fresh",
+      "fresh"
+    ]
+  },
+  "trace_path": "artifacts/finding-true/trace.zip"
+}

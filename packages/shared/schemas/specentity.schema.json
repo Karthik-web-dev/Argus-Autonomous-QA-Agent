@@ -1,0 +1,27 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "title": "Description",
+      "type": "string"
+    },
+    "fields": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Fields",
+      "type": "array"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "title": "SpecEntity",
+  "type": "object"
+}

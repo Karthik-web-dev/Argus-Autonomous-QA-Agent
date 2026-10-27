@@ -1,0 +1,94 @@
+[
+  {
+    "id": "nav-home",
+    "role": "link",
+    "name": "Home",
+    "state": {},
+    "semantic_locator": "role=link[name=Home]",
+    "form_group": null,
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  },
+  {
+    "id": "nav-signin",
+    "role": "link",
+    "name": "Sign in",
+    "state": {},
+    "semantic_locator": "role=link[name=Sign in]",
+    "form_group": null,
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  },
+  {
+    "id": "favorite",
+    "role": "button",
+    "name": "Favorite",
+    "state": {
+      "disabled": false
+    },
+    "semantic_locator": "role=button[name=Favorite]",
+    "form_group": null,
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  },
+  {
+    "id": "next-page",
+    "role": "button",
+    "name": "Next page",
+    "state": {
+      "disabled": false
+    },
+    "semantic_locator": "role=button[name=Next page]",
+    "form_group": null,
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  },
+  {
+    "id": "article-title",
+    "role": "textbox",
+    "name": "Article Title",
+    "state": { "field_type": "text", "required": true },
+    "semantic_locator": "role=textbox[name=Article Title]",
+    "form_group": "editor",
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  },
+  {
+    "id": "article-body",
+    "role": "textbox",
+    "name": "Article Body",
+    "state": { "field_type": "textarea" },
+    "semantic_locator": "role=textbox[name=Article Body]",
+    "form_group": "editor",
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  },
+  {
+    "id": "publish",
+    "role": "button",
+    "name": "Publish Article",
+    "state": {},
+    "semantic_locator": "role=button[name=Publish Article]",
+    "form_group": "editor",
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  },
+  {
+    "id": "comment",
+    "role": "textbox",
+    "name": "Write a comment",
+    "state": { "field_type": "textarea" },
+    "semantic_locator": "role=textbox[name=Write a comment]",
+    "form_group": "comment",
+    "visible": true,
+    "enabled": true,
+    "in_viewport": true
+  }
+]

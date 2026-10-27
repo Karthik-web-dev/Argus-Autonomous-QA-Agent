@@ -1,0 +1,23 @@
+[
+  {
+    "finding_id": "finding-true",
+    "verdict": "CONFIRMED",
+    "attempts": 5,
+    "reason": "UI count changes by two while the favorite endpoint is called once.",
+    "evidence_refs": []
+  },
+  {
+    "finding_id": "finding-flaky",
+    "verdict": "INCONCLUSIVE",
+    "attempts": 5,
+    "reason": "The duplicate item appeared in only one replay.",
+    "evidence_refs": []
+  },
+  {
+    "finding_id": "finding-false-positive",
+    "verdict": "REFUTED",
+    "attempts": 5,
+    "reason": "The favorite action succeeds; the 503 belongs to nonessential analytics.",
+    "evidence_refs": []
+  }
+]

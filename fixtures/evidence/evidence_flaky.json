@@ -1,0 +1,50 @@
+{
+  "finding_id": "finding-flaky",
+  "steps": [
+    {
+      "action": "goto",
+      "locator": "",
+      "value": "/feed",
+      "timeout_ms": 5000
+    },
+    {
+      "action": "click",
+      "locator": "role=button[name=Next page]",
+      "value": null,
+      "timeout_ms": 5000
+    }
+  ],
+  "expected": "The next page begins with a new article.",
+  "actual": "The last article from page one reappeared on page two in one replay.",
+  "network": [
+    {
+      "url": "/api/articles?offset=10",
+      "method": "POST",
+      "status": 200,
+      "failed": false,
+      "timestamp": "T+0.8s"
+    }
+  ],
+  "console": [
+    {
+      "level": "info",
+      "message": "Navigation completed",
+      "timestamp": "T+0.9s"
+    }
+  ],
+  "screenshots": [
+    "artifacts/finding-flaky/screenshots/page-two.png"
+  ],
+  "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+  "animation_timeline": null,
+  "reproduction": {
+    "attempts": 3,
+    "successes": 1,
+    "contexts": [
+      "fresh",
+      "fresh",
+      "fresh"
+    ]
+  },
+  "trace_path": "artifacts/finding-flaky/trace.zip"
+}

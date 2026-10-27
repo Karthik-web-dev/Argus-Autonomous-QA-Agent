@@ -1,0 +1,40 @@
+name: Work item
+description: Propose or track a scoped implementation issue
+body:
+  - type: input
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome should this issue deliver?
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Include context, scope, and relevant dossier references.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance conditions
+      description: List observable completion criteria.
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: input
+    id: deliverable
+    attributes:
+      label: Expected deliverable
+      description: Name the expected code, docs, or demo output.
+    validations:
+      required: true
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List issue IDs or write none.
+      value: none
+    validations:
+      required: true

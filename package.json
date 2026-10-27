@@ -1,0 +1,6 @@
+{
+  "name": "argus",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "scripts": { "dev": "pnpm --filter @argus/ui dev", "build": "pnpm --filter @argus/ui build", "lint": "pnpm --filter @argus/ui lint" }
+}

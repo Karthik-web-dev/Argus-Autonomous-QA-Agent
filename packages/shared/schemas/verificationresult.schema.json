@@ -1,0 +1,43 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "finding_id": {
+      "minLength": 1,
+      "title": "Finding Id",
+      "type": "string"
+    },
+    "verdict": {
+      "enum": [
+        "CONFIRMED",
+        "REFUTED",
+        "INCONCLUSIVE"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "attempts": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Attempts",
+      "type": "integer"
+    },
+    "reason": {
+      "default": "",
+      "title": "Reason",
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Evidence Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "finding_id",
+    "verdict"
+  ],
+  "title": "VerificationResult",
+  "type": "object"
+}

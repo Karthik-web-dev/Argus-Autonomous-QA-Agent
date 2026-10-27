@@ -1,0 +1,249 @@
+[
+  {
+    "id": "BUG-001",
+    "severity": "P1",
+    "title": "Favorite action increments the count twice",
+    "category": "functional",
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Favorite]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "expected": "Favorite count increases by one.",
+    "actual": "The UI count increased by two after a single click.",
+    "evidence": {
+      "finding_id": "finding-true",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/feed",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Favorite]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "Favorite count increases by one.",
+      "actual": "The UI count increased by two after a single click.",
+      "network": [
+        {
+          "url": "/api/articles/argus-fixture/favorite",
+          "method": "POST",
+          "status": 200,
+          "failed": false,
+          "timestamp": "T+0.8s"
+        }
+      ],
+      "console": [
+        {
+          "level": "info",
+          "message": "Navigation completed",
+          "timestamp": "T+0.9s"
+        }
+      ],
+      "screenshots": [
+        "artifacts/finding-true/screenshots/after-click.png"
+      ],
+      "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+      "animation_timeline": null,
+      "reproduction": {
+        "attempts": 5,
+        "successes": 5,
+        "contexts": [
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh"
+        ]
+      },
+      "trace_path": "artifacts/finding-true/trace.zip"
+    },
+    "playwright_repro_path": "tests/repro/bug-001.spec.ts",
+    "affected_paths": [
+      "/feed"
+    ],
+    "verified_by": "red_team"
+  },
+  {
+    "id": "BUG-002",
+    "severity": "P2",
+    "title": "Next feed page repeats the previous article",
+    "category": "functional",
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Next page]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "expected": "The next page begins with a new article.",
+    "actual": "The last article from page one reappeared on page two in one replay.",
+    "evidence": {
+      "finding_id": "finding-flaky",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/feed",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Next page]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "The next page begins with a new article.",
+      "actual": "The last article from page one reappeared on page two in one replay.",
+      "network": [
+        {
+          "url": "/api/articles?offset=10",
+          "method": "POST",
+          "status": 200,
+          "failed": false,
+          "timestamp": "T+0.8s"
+        }
+      ],
+      "console": [
+        {
+          "level": "info",
+          "message": "Navigation completed",
+          "timestamp": "T+0.9s"
+        }
+      ],
+      "screenshots": [
+        "artifacts/finding-flaky/screenshots/page-two.png"
+      ],
+      "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+      "animation_timeline": null,
+      "reproduction": {
+        "attempts": 3,
+        "successes": 1,
+        "contexts": [
+          "fresh",
+          "fresh",
+          "fresh"
+        ]
+      },
+      "trace_path": "artifacts/finding-flaky/trace.zip"
+    },
+    "playwright_repro_path": "tests/repro/bug-002.spec.ts",
+    "affected_paths": [
+      "/feed"
+    ],
+    "verified_by": "red_team"
+  },
+  {
+    "id": "BUG-003",
+    "severity": "P2",
+    "title": "Editing an article removes its final tag",
+    "category": "state_persistence",
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/editor/example",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "fill",
+        "locator": "role=textbox[name=Article Body]",
+        "value": "Edited article body",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Publish Article]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "expected": "All article tags remain attached after an edit.",
+    "actual": "The final tag is missing after the update.",
+    "evidence": {
+      "finding_id": "finding-edit-tags-sample",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/editor/example",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "fill",
+          "locator": "role=textbox[name=Article Body]",
+          "value": "Edited article body",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Publish Article]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "All article tags remain attached after an edit.",
+      "actual": "The final tag is missing after the update.",
+      "network": [
+        {
+          "url": "/api/articles/argus-fixture",
+          "method": "POST",
+          "status": 200,
+          "failed": false,
+          "timestamp": "T+0.8s"
+        }
+      ],
+      "console": [
+        {
+          "level": "info",
+          "message": "Navigation completed",
+          "timestamp": "T+0.9s"
+        }
+      ],
+      "screenshots": [
+        "artifacts/BUG-003/screenshots/article-after-edit.png"
+      ],
+      "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+      "animation_timeline": null,
+      "reproduction": {
+        "attempts": 5,
+        "successes": 5,
+        "contexts": [
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh"
+        ]
+      },
+      "trace_path": "artifacts/finding-edit-tags-sample/trace.zip"
+    },
+    "playwright_repro_path": "tests/repro/bug-003.spec.ts",
+    "affected_paths": [
+      "/feed"
+    ],
+    "verified_by": "red_team"
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "finding_id": "finding-false-positive",
+  "steps": [
+    {
+      "action": "goto",
+      "locator": "",
+      "value": "/feed",
+      "timeout_ms": 5000
+    },
+    {
+      "action": "click",
+      "locator": "role=button[name=Favorite]",
+      "value": null,
+      "timeout_ms": 5000
+    }
+  ],
+  "expected": "A failed analytics beacon does not undo a favorite.",
+  "actual": "The favorite saved successfully; only the analytics beacon returned 503.",
+  "network": [
+    {
+      "url": "/api/analytics/events",
+      "method": "POST",
+      "status": 503,
+      "failed": false,
+      "timestamp": "T+0.8s"
+    }
+  ],
+  "console": [
+    {
+      "level": "info",
+      "message": "Navigation completed",
+      "timestamp": "T+0.9s"
+    }
+  ],
+  "screenshots": [
+    "artifacts/finding-false-positive/screenshots/favorite-saved.png"
+  ],
+  "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+  "animation_timeline": null,
+  "reproduction": {
+    "attempts": 5,
+    "successes": 5,
+    "contexts": [
+      "fresh",
+      "fresh",
+      "fresh",
+      "fresh",
+      "fresh"
+    ]
+  },
+  "trace_path": "artifacts/finding-false-positive/trace.zip"
+}

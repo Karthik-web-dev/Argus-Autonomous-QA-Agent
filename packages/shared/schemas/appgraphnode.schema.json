@@ -1,0 +1,121 @@
+{
+  "$defs": {
+    "ElementCatalogEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        },
+        "name": {
+          "default": "",
+          "title": "Name",
+          "type": "string"
+        },
+        "state": {
+          "additionalProperties": true,
+          "title": "State",
+          "type": "object"
+        },
+        "semantic_locator": {
+          "minLength": 1,
+          "title": "Semantic Locator",
+          "type": "string"
+        },
+        "form_group": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Form Group"
+        },
+        "visible": {
+          "title": "Visible",
+          "type": "boolean"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "in_viewport": {
+          "title": "In Viewport",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "semantic_locator",
+        "visible",
+        "enabled",
+        "in_viewport"
+      ],
+      "title": "ElementCatalogEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A distinct reachable UI state in a crawled application.",
+  "properties": {
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "url": {
+      "minLength": 1,
+      "title": "Url",
+      "type": "string"
+    },
+    "signature": {
+      "minLength": 1,
+      "title": "Signature",
+      "type": "string"
+    },
+    "title": {
+      "default": "",
+      "title": "Title",
+      "type": "string"
+    },
+    "accessibility_snapshot": {
+      "default": "",
+      "title": "Accessibility Snapshot",
+      "type": "string"
+    },
+    "elements": {
+      "items": {
+        "$ref": "#/$defs/ElementCatalogEntry"
+      },
+      "title": "Elements",
+      "type": "array"
+    },
+    "authenticated": {
+      "default": false,
+      "title": "Authenticated",
+      "type": "boolean"
+    },
+    "captured": {
+      "default": true,
+      "title": "Captured",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "url",
+    "signature"
+  ],
+  "title": "AppGraphNode",
+  "type": "object"
+}

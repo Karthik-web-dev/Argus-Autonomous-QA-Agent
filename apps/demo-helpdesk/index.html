@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relay Support — help for your team</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1f2433;background:#f5f6fb}
+    *{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}
+    header{background:#fff;border-bottom:1px solid #e3e5ef;display:flex;align-items:center;justify-content:space-between;padding:12px max(calc((100vw - 1080px)/2),20px)}
+    .brand{font-weight:800;font-size:21px;color:#4b4fd8;text-decoration:none}.right{display:flex;align-items:center;gap:18px}nav{display:flex;gap:16px}nav a{color:#5b6075;text-decoration:none;font-size:14px}
+    .icon{border:1px solid #e3e5ef;background:#fff;border-radius:8px;width:36px;height:36px;display:grid;place-items:center;color:#5b6075}
+    main{max-width:1080px;margin:26px auto;padding:0 20px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px}
+    h1{font-size:26px;margin:0 0 6px}h2{font-size:16px;margin:0 0 12px}.lede{color:#5b6075;margin:0 0 18px}
+    .panel{background:#fff;border:1px solid #e3e5ef;border-radius:10px;padding:16px;margin-bottom:18px}
+    label{display:block;font-size:13px;color:#5b6075;margin:10px 0 4px}
+    input,select,textarea{width:100%;padding:9px 10px;border:1px solid #d5d8e6;border-radius:6px;background:#fff}textarea{min-height:90px;resize:vertical}
+    .btn{background:#4b4fd8;color:#fff;border:0;border-radius:6px;padding:9px 14px;margin-top:12px}.btn:disabled{opacity:.5;cursor:default}
+    .search{display:flex;gap:8px}.search .btn{margin-top:0}
+    table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid #eef0f6}th{color:#5b6075;font-weight:600}
+    .pill{font-size:12px;padding:2px 8px;border-radius:12px;background:#eef0fb;color:#4b4fd8}
+    .pager{display:flex;gap:6px;align-items:center;margin-top:12px;font-size:13px;color:#5b6075}.pager button{border:1px solid #d5d8e6;background:#fff;border-radius:6px;padding:5px 10px}.pager button:disabled{opacity:.45;cursor:default}
+    .note{font-size:13px;margin:10px 0 0;padding:8px 10px;border-radius:6px;background:#eef0fb;color:#3a3db0}.note.error{background:#fdecea;color:#9b2c1f}
+    .muted{color:#5b6075;font-size:13px}ul{padding-left:18px;margin:0}li{margin:4px 0;font-size:14px}
+    @media(max-width:800px){main{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">Relay Support</a>
+    <div class="right">
+      <nav aria-label="Main"><a href="/">Tickets</a><a href="/kb">Knowledge base</a><a href="/account">My account</a></nav>
+      <button class="icon" id="notifications" type="button"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></button>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h1>Support tickets</h1>
+      <p class="lede">Search existing tickets or open a new one. We usually reply within a few hours.</p>
+      <div class="panel">
+        <form class="search" id="search-form" aria-label="Search tickets" role="search">
+          <input id="search" type="search" aria-label="Search tickets" placeholder="Search tickets by subject">
+          <button class="btn">Search</button>
+        </form>
+        <h2 id="results-heading" style="margin-top:16px">All tickets</h2>
+        <table aria-labelledby="results-heading">
+          <thead><tr><th>#</th><th>Subject</th><th>Status</th><th>Priority</th></tr></thead>
+          <tbody id="ticket-rows"></tbody>
+        </table>
+        <p id="empty" class="muted" hidden>No matches found. Try a different search.</p>
+        <div class="pager" aria-label="Pagination">
+          <button id="first-page" type="button">First</button>
+          <button id="prev-page" type="button">Previous</button>
+          <span id="page-label">Page 1 of 1</span>
+          <button id="next-page" type="button">Next</button>
+          <button id="last-page" type="button">Last</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Popular articles</h2>
+        <ul id="popular"><li class="muted">Loading…</li></ul>
+      </div>
+    </section>
+    <aside>
+      <section class="panel">
+        <h2>Open a new ticket</h2>
+        <form id="ticket-form" aria-label="New ticket">
+          <label for="subject">Subject</label>
+          <input id="subject" required maxlength="120">
+          <label for="ticket-email">Your email</label>
+          <input id="ticket-email" type="email" required autocomplete="email">
+          <label for="priority">Priority</label>
+          <select id="priority"><option>Normal</option><option>High</option><option>Low</option><option>Urgent</option></select>
+          <label for="description">Description (optional)</label>
+          <textarea id="description" maxlength="2000"></textarea>
+          <button class="btn" id="submit-ticket" style="width:100%">Submit ticket</button>
+        </form>
+        <p id="ticket-note" class="note" role="status" hidden></p>
+      </section>
+      <section class="panel">
+        <h2>Sign in</h2>
+        <form id="signin-form" aria-label="Sign in">
+          <label for="signin-email">Email</label>
+          <input id="signin-email" type="email" required autocomplete="username">
+          <label for="password">Password</label>
+          <input id="password" type="password" required minlength="8" autocomplete="current-password">
+          <p id="password-hint" class="muted" style="margin:6px 0 0">Use at least 8 characters.</p>
+          <button class="btn" style="width:100%">Sign in</button>
+        </form>
+        <p id="signin-note" class="note" role="status" hidden></p>
+      </section>
+    </aside>
+  </main>
+  <script>
+    const BUGS = new Set(/*BUGS*/[]);
+    const bug = id => BUGS.has(id);
+    const $ = s => document.querySelector(s);
+    let state = {q: '', page: 1, pages: 1};
+
+    // HD-06: the clean build names the icon-only notifications button.
+    if (!bug('HD-06')) $('#notifications').setAttribute('aria-label', 'Notifications');
+
+    async function loadTickets() {
+      const data = await fetch('/api/tickets?q=' + encodeURIComponent(state.q) + '&page=' + state.page).then(r => r.json());
+      state.page = data.page; state.pages = data.pages;
+      const heading = $('#results-heading');
+      if (!state.q) heading.textContent = 'All tickets';
+      else if (bug('HD-01')) heading.innerHTML = 'Results for “' + state.q + '”';  // Planted: reflected markup.
+      else heading.textContent = 'Results for “' + state.q + '”';
+      const rows = $('#ticket-rows');
+      rows.replaceChildren();
+      for (const t of data.tickets) {
+        const tr = document.createElement('tr');
+        for (const value of ['#' + t.id, t.subject, t.status]) {
+          const td = document.createElement('td'); td.textContent = value; tr.append(td);
+        }
+        const td = document.createElement('td'); const pill = document.createElement('span');
+        pill.className = 'pill'; pill.textContent = t.priority; td.append(pill); tr.append(td);
+        rows.append(tr);
+      }
+      $('#empty').hidden = data.tickets.length > 0;
+      updatePager();
+    }
+
+    function updatePager() {
+      $('#page-label').textContent = 'Page ' + state.page + ' of ' + state.pages;
+      // HD-03: the planted build forgets to disable Previous on the first page.
+      $('#prev-page').disabled = bug('HD-03') ? false : state.page === 1;
+      $('#next-page').disabled = state.page === state.pages;
+    }
+
+    // Update the pager synchronously so its state never lags behind a click.
+    const go = page => { state.page = Math.min(Math.max(1, page), state.pages); updatePager(); loadTickets(); };
+    $('#first-page').onclick = () => go(1);
+    $('#prev-page').onclick = () => go(state.page - 1);
+    $('#next-page').onclick = () => go(state.page + 1);
+    $('#last-page').onclick = () => go(state.pages);
+    $('#search-form').onsubmit = e => { e.preventDefault(); state.q = $('#search').value.trim(); state.page = 1; loadTickets(); };
+
+    $('#subject').addEventListener('input', e => {
+      // HD-02: the planted build silently cuts subjects to 60 characters despite maxlength=120.
+      if (bug('HD-02') && e.target.value.length > 60) e.target.value = e.target.value.slice(0, 60);
+    });
+
+    $('#password').addEventListener('input', e => {
+      const value = e.target.value;
+      const strength = value.length >= 12 ? 'strong' : value.length >= 8 ? 'okay' : 'too short';
+      // HD-05: the planted build echoes the typed password into the hint text.
+      $('#password-hint').textContent = bug('HD-05')
+        ? 'Checking “' + value + '” — strength: ' + strength
+        : 'Strength: ' + strength;
+    });
+
+    $('#ticket-form').onsubmit = async e => {
+      e.preventDefault();
+      const button = $('#submit-ticket');
+      if (button.disabled) return;
+      button.disabled = true;
+      const note = $('#ticket-note');
+      try {
+        const res = await fetch('/api/tickets', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
+          subject: $('#subject').value, email: $('#ticket-email').value,
+          priority: $('#priority').value, description: $('#description').value})});
+        const data = await res.json();
+        if (res.ok) {
+          note.hidden = false; note.className = 'note';
+          note.textContent = 'Ticket #' + data.ticket.id + ' created. We will email you shortly.';
+          e.target.reset(); state.q = ''; state.page = 1; loadTickets();
+        } else if (!bug('HD-04')) {
+          note.hidden = false; note.className = 'note error';
+          note.textContent = data.error || 'We could not create your ticket. Please try again.';
+        }
+        // HD-04: the planted build shows nothing at all when creation fails.
+      } finally {
+        button.disabled = false;
+      }
+    };
+
+    $('#signin-form').onsubmit = async e => {
+      e.preventDefault();
+      const res = await fetch('/api/session', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
+        email: $('#signin-email').value, password: $('#password').value})});
+      const data = await res.json();
+      const note = $('#signin-note');
+      note.hidden = false;
+      note.className = res.ok ? 'note' : 'note error';
+      note.textContent = res.ok ? 'Signed in as ' + data.user.email : data.error;
+    };
+
+    async function loadPopular() {
+      const data = await fetch('/api/kb/popular').then(r => r.json());
+      const list = $('#popular');
+      list.replaceChildren(...data.articles.map(article => {
+        const li = document.createElement('li'); const a = document.createElement('a');
+        a.href = article.href; a.textContent = article.title; li.append(a); return li;
+      }));
+    }
+
+    loadTickets();
+    loadPopular();
+  </script>
+</body>
+</html>

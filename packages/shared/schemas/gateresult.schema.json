@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "finding_id": {
+      "minLength": 1,
+      "title": "Finding Id",
+      "type": "string"
+    },
+    "verdict": {
+      "enum": [
+        "ACCEPTED",
+        "REJECTED",
+        "FLAKY"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "attempts": {
+      "minimum": 0,
+      "title": "Attempts",
+      "type": "integer"
+    },
+    "successes": {
+      "minimum": 0,
+      "title": "Successes",
+      "type": "integer"
+    },
+    "threshold": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Threshold",
+      "type": "number"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Evidence Refs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "finding_id",
+    "verdict",
+    "attempts",
+    "successes",
+    "threshold"
+  ],
+  "title": "GateResult",
+  "type": "object"
+}

@@ -1,0 +1,37 @@
+{
+  "additionalProperties": false,
+  "description": "A user action that transitions between two discovered states.",
+  "properties": {
+    "source": {
+      "minLength": 1,
+      "title": "Source",
+      "type": "string"
+    },
+    "target": {
+      "minLength": 1,
+      "title": "Target",
+      "type": "string"
+    },
+    "action": {
+      "enum": [
+        "link",
+        "button"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "locator": {
+      "minLength": 1,
+      "title": "Locator",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source",
+    "target",
+    "action",
+    "locator"
+  ],
+  "title": "AppGraphEdge",
+  "type": "object"
+}

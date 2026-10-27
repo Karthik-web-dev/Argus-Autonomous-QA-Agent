@@ -1,0 +1,23 @@
+.results-layout .workspace-top .evidence-panel{grid-column:3;grid-row:1;border-radius:0 8px 8px 0}
+.results-layout .workspace-top .findings-panel{grid-column:1;grid-row:1;border-radius:8px 0 0 8px}
+.dashboard-fullscreen{position:fixed;inset:0;z-index:40}
+.dashboard-fullscreen .dashboard-rail{display:none}
+.dashboard-fullscreen .dashboard-main{left:0;padding:13px 18px}
+.dashboard-fullscreen .run-overview{display:none}
+.dashboard-fullscreen .workspace-layout{height:calc(100vh - 91px);min-height:0}
+.dashboard-fullscreen .workspace-top{height:100%;min-height:0}
+.dashboard-fullscreen .browser-panel{border-radius:8px}
+.floating-score-wrap{position:absolute;z-index:5;right:25px;bottom:28px;display:flex;align-items:flex-end;gap:12px}
+.floating-score-wrap .floating-score{position:relative;right:auto;bottom:auto;z-index:2}
+.floating-findings{width:min(320px,calc(100vw - 120px));max-height:min(470px,70vh);padding:10px 12px;border:1px solid #3a443a;border-radius:8px;background:#101612f5;box-shadow:0 18px 60px #0009;display:flex;flex-direction:column;backdrop-filter:blur(12px)}
+.floating-findings .subpanel-heading{min-height:28px}
+.floating-findings .finding-list{max-height:390px;overflow:auto}
+.floating-findings .text-action{padding:10px 2px 2px;text-align:left}
+.trace-ok{color:#82b997;font-weight:500}
+@media(max-width:760px){
+  .dashboard-fullscreen{padding-top:56px}
+  .dashboard-fullscreen .dashboard-main{top:56px;left:0;right:0;bottom:0}
+  .dashboard-fullscreen .workspace-layout{height:calc(100dvh - 85px)}
+  .floating-score-wrap{right:15px;bottom:20px}
+  .floating-findings{width:min(300px,calc(100vw - 50px));max-height:58vh}
+}

@@ -1,0 +1,104 @@
+{
+  "description": "Conduit lets visitors browse and favorite articles, while registered users can sign in, publish articles, comment, follow authors, and manage their profile.",
+  "journeys": [
+    {
+      "id": "tc-favorite-double",
+      "journey": "Favorite an article",
+      "description": "One favorite action increments the count once.",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/feed",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Favorite]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "The count increases by one.",
+      "category": "journey",
+      "source": "spec"
+    },
+    {
+      "id": "tc-analytics-noise",
+      "journey": "Favorite article analytics",
+      "description": "A failing analytics beacon must not undo the favorite action.",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/feed",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Favorite]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "The favorite state is saved even if analytics is unavailable.",
+      "category": "edge_case",
+      "source": "spec"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-favorite",
+      "statement": "Favoriting an article increments its count exactly once.",
+      "priority": "high"
+    },
+    {
+      "id": "claim-pagination",
+      "statement": "Feed pagination returns unique articles in order.",
+      "priority": "normal"
+    },
+    {
+      "id": "claim-analytics",
+      "statement": "Analytics failures do not change the result of a user action.",
+      "priority": "normal"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Article",
+      "description": "",
+      "fields": [
+        "title",
+        "description",
+        "body",
+        "tags"
+      ]
+    },
+    {
+      "name": "User",
+      "description": "",
+      "fields": [
+        "email",
+        "username",
+        "bio",
+        "image"
+      ]
+    }
+  ],
+  "validation_rules": [
+    {
+      "field": "article.title",
+      "rule": "required",
+      "message": "Title is required."
+    },
+    {
+      "field": "user.email",
+      "rule": "valid email",
+      "message": "Enter a valid email."
+    }
+  ],
+  "auth_requirements": [
+    "Public visitors may browse articles.",
+    "Only signed-in users may publish or favorite."
+  ]
+}

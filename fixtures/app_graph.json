@@ -1,0 +1,35 @@
+{
+  "adjacency": {
+    "/": [
+      "/login",
+      "/register",
+      "/feed"
+    ],
+    "/login": [
+      "/feed",
+      "/settings"
+    ],
+    "/register": [
+      "/feed"
+    ],
+    "/feed": [
+      "/article/:slug",
+      "/editor",
+      "/profile/:username"
+    ],
+    "/article/:slug": [
+      "/editor",
+      "/feed"
+    ],
+    "/editor": [
+      "/article/:slug",
+      "/feed"
+    ],
+    "/settings": [
+      "/profile/:username"
+    ],
+    "/profile/:username": [
+      "/feed"
+    ]
+  }
+}

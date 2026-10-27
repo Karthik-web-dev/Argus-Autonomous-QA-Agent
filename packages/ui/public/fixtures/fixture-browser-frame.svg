@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Argus sample browser frame</title>
+  <desc id="desc">A static sample page frame used during fixture replay.</desc>
+  <rect width="1280" height="720" fill="#f7f8f6"/>
+  <rect width="1280" height="52" fill="#fff"/>
+  <path d="M0 51.5h1280" stroke="#e7e9e5"/>
+  <circle cx="42" cy="26" r="13" fill="#5ca582"/>
+  <text x="68" y="32" fill="#25312a" font-family="Arial,sans-serif" font-size="20" font-weight="700">Conduit</text>
+  <text x="1000" y="31" fill="#69736d" font-family="Arial,sans-serif" font-size="14">Home</text>
+  <text x="1064" y="31" fill="#69736d" font-family="Arial,sans-serif" font-size="14">Sign in</text>
+  <rect y="52" width="1280" height="184" fill="#5ca582"/>
+  <text x="640" y="132" text-anchor="middle" fill="#fff" font-family="Georgia,serif" font-size="52">conduit</text>
+  <text x="640" y="174" text-anchor="middle" fill="#eef8f1" font-family="Arial,sans-serif" font-size="20">A place to share your knowledge.</text>
+  <rect x="0" y="236" width="1280" height="484" fill="#fff"/>
+  <text x="185" y="290" fill="#5ca582" font-family="Arial,sans-serif" font-size="15" font-weight="700">Global Feed</text>
+  <path d="M185 305h745" stroke="#5ca582" stroke-width="2"/>
+  <g font-family="Arial,sans-serif">
+    <circle cx="205" cy="346" r="18" fill="#a7c6b5"/><text x="238" y="343" fill="#5ca582" font-size="13">Demo Author</text><text x="238" y="361" fill="#a0a7a2" font-size="11">October 15, 2026</text>
+    <text x="185" y="405" fill="#344039" font-size="23" font-weight="700">A sample article for fixture replay</text>
+    <text x="185" y="435" fill="#758079" font-size="14">This static frame lets panel work be previewed without launching a target site.</text>
+    <text x="185" y="459" fill="#758079" font-size="14">Live runs replace this illustration with the Chromium screencast.</text>
+    <text x="185" y="493" fill="#9ca49e" font-size="11">Read more...</text>
+  </g>
+  <path d="M185 518h745" stroke="#e8ebe8"/>
+  <rect x="185" y="552" width="188" height="34" rx="17" fill="#edf1ee"/>
+  <text x="279" y="574" text-anchor="middle" fill="#748078" font-family="Arial,sans-serif" font-size="12"># fixture  # browser</text>
+  <rect x="955" y="267" width="178" height="228" rx="5" fill="#f4f6f4"/>
+  <text x="978" y="300" fill="#536159" font-family="Arial,sans-serif" font-size="15" font-weight="700">Popular Tags</text>
+  <g font-family="Arial,sans-serif" font-size="12" fill="#fff">
+    <rect x="978" y="320" width="54" height="25" rx="13" fill="#84958b"/><text x="1005" y="337" text-anchor="middle">testing</text>
+    <rect x="1038" y="320" width="68" height="25" rx="13" fill="#84958b"/><text x="1072" y="337" text-anchor="middle">fixture</text>
+    <rect x="978" y="354" width="50" height="25" rx="13" fill="#84958b"/><text x="1003" y="371" text-anchor="middle">demo</text>
+  </g>
+  <rect x="1084" y="633" width="156" height="45" rx="5" fill="#fdf6c0" stroke="#ddd39a"/>
+  <text x="1162" y="660" text-anchor="middle" fill="#444538" font-family="Arial,sans-serif" font-size="12">FIXTURE FRAME</text>
+</svg>

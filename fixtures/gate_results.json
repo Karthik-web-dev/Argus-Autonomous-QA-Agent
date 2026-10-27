@@ -1,0 +1,32 @@
+[
+  {
+    "finding_id": "finding-true",
+    "verdict": "ACCEPTED",
+    "attempts": 3,
+    "successes": 3,
+    "threshold": 0.6666666666666666,
+    "evidence_refs": [
+      "evidence/evidence_bundle.json"
+    ]
+  },
+  {
+    "finding_id": "finding-flaky",
+    "verdict": "FLAKY",
+    "attempts": 3,
+    "successes": 1,
+    "threshold": 0.6666666666666666,
+    "evidence_refs": [
+      "evidence/evidence_flaky.json"
+    ]
+  },
+  {
+    "finding_id": "finding-false-positive",
+    "verdict": "ACCEPTED",
+    "attempts": 3,
+    "successes": 3,
+    "threshold": 0.6666666666666666,
+    "evidence_refs": [
+      "evidence/evidence_false_positive.json"
+    ]
+  }
+]

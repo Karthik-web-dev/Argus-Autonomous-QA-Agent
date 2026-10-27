@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "Step": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "goto",
+            "click",
+            "fill",
+            "hover",
+            "wait",
+            "assert",
+            "press",
+            "type_text",
+            "double_click",
+            "back",
+            "reload",
+            "set_viewport",
+            "set_offline",
+            "throttle_network",
+            "assert_no_broken_images",
+            "assert_internal_links",
+            "assert_no_console_errors",
+            "assert_invalid",
+            "assert_password_masked",
+            "assert_value_length",
+            "assert_numeric_value",
+            "assert_input_value",
+            "assert_no_new_console_errors",
+            "assert_no_unsafe_markup",
+            "assert_empty_state",
+            "assert_no_text_overflow",
+            "assert_named_control",
+            "assert_pagination_boundaries",
+            "assert_protected_route",
+            "assert_idor_isolation",
+            "assert_sort_stability",
+            "assert_numeric_boundary",
+            "assert_double_submit",
+            "assert_mobile_layout",
+            "assert_back_mid_flow",
+            "assert_refresh_mid_flow",
+            "assert_keyboard_submit"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "locator": {
+          "default": "",
+          "title": "Locator",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "exclusiveMinimum": 0,
+          "maximum": 120000,
+          "title": "Timeout Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "title": "Step",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "oracle_id": {
+      "minLength": 1,
+      "title": "Oracle Id",
+      "type": "string"
+    },
+    "symptom_signature": {
+      "minLength": 1,
+      "title": "Symptom Signature",
+      "type": "string"
+    },
+    "confidence": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/Step"
+      },
+      "title": "Steps",
+      "type": "array"
+    },
+    "evidence_ref": {
+      "minLength": 1,
+      "title": "Evidence Ref",
+      "type": "string"
+    },
+    "expected": {
+      "default": "",
+      "title": "Expected",
+      "type": "string"
+    },
+    "actual": {
+      "default": "",
+      "title": "Actual",
+      "type": "string"
+    },
+    "affected_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Affected Paths",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "oracle_id",
+    "symptom_signature",
+    "confidence",
+    "evidence_ref"
+  ],
+  "title": "Finding",
+  "type": "object"
+}

@@ -1,0 +1,81 @@
+[
+  {
+    "id": "finding-true",
+    "oracle_id": "ui-network-correlation",
+    "symptom_signature": "Favorite count increments twice",
+    "confidence": 0.97,
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Favorite]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "evidence_ref": "evidence/evidence_bundle.json",
+    "expected": "Favorite count increases by one.",
+    "actual": "The UI count increased by two after a single click.",
+    "affected_paths": [
+      "/feed",
+      "/article/:slug"
+    ]
+  },
+  {
+    "id": "finding-flaky",
+    "oracle_id": "pagination-invariant",
+    "symptom_signature": "Feed pagination may repeat an article",
+    "confidence": 0.61,
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Next page]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "evidence_ref": "evidence/evidence_flaky.json",
+    "expected": "The next page begins with a new article.",
+    "actual": "The last article from page one reappeared on page two in one replay.",
+    "affected_paths": [
+      "/feed"
+    ]
+  },
+  {
+    "id": "finding-false-positive",
+    "oracle_id": "http-status",
+    "symptom_signature": "Favorite action reported as failed",
+    "confidence": 0.54,
+    "steps": [
+      {
+        "action": "goto",
+        "locator": "",
+        "value": "/feed",
+        "timeout_ms": 5000
+      },
+      {
+        "action": "click",
+        "locator": "role=button[name=Favorite]",
+        "value": null,
+        "timeout_ms": 5000
+      }
+    ],
+    "evidence_ref": "evidence/evidence_false_positive.json",
+    "expected": "A failed analytics beacon does not undo a favorite.",
+    "actual": "The favorite saved successfully; only the analytics beacon returned 503.",
+    "affected_paths": [
+      "/feed"
+    ]
+  }
+]

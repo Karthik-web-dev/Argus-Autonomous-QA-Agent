@@ -1,0 +1,171 @@
+[
+  {
+    "test_id": "tc-favorite-double",
+    "verdict": "FAIL",
+    "evidence": {
+      "finding_id": "finding-true",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/feed",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Favorite]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "Favorite count increases by one.",
+      "actual": "The UI count increased by two after a single click.",
+      "network": [
+        {
+          "url": "/api/articles/argus-fixture/favorite",
+          "method": "POST",
+          "status": 200,
+          "failed": false,
+          "timestamp": "T+0.8s"
+        }
+      ],
+      "console": [
+        {
+          "level": "info",
+          "message": "Navigation completed",
+          "timestamp": "T+0.9s"
+        }
+      ],
+      "screenshots": [
+        "artifacts/finding-true/screenshots/after-click.png"
+      ],
+      "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+      "animation_timeline": null,
+      "reproduction": {
+        "attempts": 5,
+        "successes": 5,
+        "contexts": [
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh"
+        ]
+      },
+      "trace_path": "artifacts/finding-true/trace.zip"
+    },
+    "duration_ms": 1240
+  },
+  {
+    "test_id": "tc-pagination-flaky",
+    "verdict": "INCONCLUSIVE",
+    "evidence": {
+      "finding_id": "finding-flaky",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/feed",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Next page]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "The next page begins with a new article.",
+      "actual": "The last article from page one reappeared on page two in one replay.",
+      "network": [
+        {
+          "url": "/api/articles?offset=10",
+          "method": "POST",
+          "status": 200,
+          "failed": false,
+          "timestamp": "T+0.8s"
+        }
+      ],
+      "console": [
+        {
+          "level": "info",
+          "message": "Navigation completed",
+          "timestamp": "T+0.9s"
+        }
+      ],
+      "screenshots": [
+        "artifacts/finding-flaky/screenshots/page-two.png"
+      ],
+      "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+      "animation_timeline": null,
+      "reproduction": {
+        "attempts": 3,
+        "successes": 1,
+        "contexts": [
+          "fresh",
+          "fresh",
+          "fresh"
+        ]
+      },
+      "trace_path": "artifacts/finding-flaky/trace.zip"
+    },
+    "duration_ms": 2180
+  },
+  {
+    "test_id": "tc-analytics-noise",
+    "verdict": "PASS",
+    "evidence": {
+      "finding_id": "finding-false-positive",
+      "steps": [
+        {
+          "action": "goto",
+          "locator": "",
+          "value": "/feed",
+          "timeout_ms": 5000
+        },
+        {
+          "action": "click",
+          "locator": "role=button[name=Favorite]",
+          "value": null,
+          "timeout_ms": 5000
+        }
+      ],
+      "expected": "A failed analytics beacon does not undo a favorite.",
+      "actual": "The favorite saved successfully; only the analytics beacon returned 503.",
+      "network": [
+        {
+          "url": "/api/analytics/events",
+          "method": "POST",
+          "status": 503,
+          "failed": false,
+          "timestamp": "T+0.8s"
+        }
+      ],
+      "console": [
+        {
+          "level": "info",
+          "message": "Navigation completed",
+          "timestamp": "T+0.9s"
+        }
+      ],
+      "screenshots": [
+        "artifacts/finding-false-positive/screenshots/favorite-saved.png"
+      ],
+      "dom_snapshot_after": "<button aria-label=\"Favorite\">Favorite (14)</button>",
+      "animation_timeline": null,
+      "reproduction": {
+        "attempts": 5,
+        "successes": 5,
+        "contexts": [
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh",
+          "fresh"
+        ]
+      },
+      "trace_path": "artifacts/finding-false-positive/trace.zip"
+    },
+    "duration_ms": 890
+  }
+]

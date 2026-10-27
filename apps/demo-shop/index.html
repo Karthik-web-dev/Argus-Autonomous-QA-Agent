@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pantry — everyday groceries, delivered</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1d2420;background:#f6f5f1}
+    *{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}
+    header{background:#fff;border-bottom:1px solid #e5e2da;display:flex;align-items:center;justify-content:space-between;padding:14px max(calc((100vw - 1040px)/2),20px)}
+    .brand{font-weight:800;font-size:22px;color:#2f6f4f;text-decoration:none}nav{display:flex;gap:18px}nav a{color:#5d655f;text-decoration:none;font-size:14px}
+    main{max-width:1040px;margin:28px auto;padding:0 20px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px}
+    h1{margin:0 0 6px;font-size:28px}h2{font-size:17px;margin:0 0 12px}.lede{color:#6b736d;margin:0 0 20px}
+    .search{display:flex;gap:8px;margin-bottom:20px}.search input{flex:1}
+    input{padding:9px 10px;border:1px solid #d6d2c8;border-radius:6px;width:100%;background:#fff}
+    label{display:block;font-size:13px;color:#5d655f;margin:10px 0 4px}
+    .btn{background:#2f6f4f;color:#fff;border:0;border-radius:6px;padding:9px 14px;white-space:nowrap}.btn:disabled{opacity:.6}
+    .ghost{background:#fff;color:#2f6f4f;border:1px solid #b9d3c4}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+    .card{background:#fff;border:1px solid #e5e2da;border-radius:10px;padding:12px}.card img{width:100%;height:auto;aspect-ratio:3/2;display:block;border-radius:8px;background:#eee}
+    .card h3{font-size:15px;margin:10px 0 2px}.price{color:#6b736d;margin:0 0 10px}
+    .panel{background:#fff;border:1px solid #e5e2da;border-radius:10px;padding:16px;margin-bottom:18px}
+    .cart-line{display:flex;justify-content:space-between;font-size:14px;padding:4px 0}.total{font-weight:700;border-top:1px solid #eee;margin-top:8px;padding-top:8px}
+    .note{font-size:13px;margin:10px 0 0;padding:8px 10px;border-radius:6px;background:#eef5f0;color:#2f6f4f}.note.error{background:#fdecea;color:#9b2c1f}
+    .empty{color:#6b736d;padding:24px 0}
+    @media(max-width:760px){main{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">Pantry</a>
+    <nav aria-label="Main"><a href="/">Shop</a><a href="/deals">Today's deals</a><a href="/help">Help</a></nav>
+  </header>
+  <main>
+    <section>
+      <h1>Fresh groceries, no fuss</h1>
+      <p class="lede">Add a few favourites to your basket and check out in seconds.</p>
+      <form class="search" id="search-form" aria-label="Product search" role="search">
+        <input id="search" type="search" aria-label="Search products" placeholder="Search products">
+        <button class="btn">Search</button>
+      </form>
+      <div id="products" class="grid" aria-live="polite"></div>
+    </section>
+    <aside>
+      <section class="panel" aria-labelledby="cart-heading">
+        <h2 id="cart-heading">Your basket</h2>
+        <div id="cart-lines"><p class="empty">Your basket is empty.</p></div>
+        <div class="cart-line total"><span id="cart-count">0 items</span><span id="cart-total">Total: $0.00</span></div>
+        <button class="btn ghost" id="save-basket" type="button" style="margin-top:12px;width:100%">Save basket for later</button>
+        <p id="saved-note" class="note" hidden></p>
+      </section>
+      <section class="panel">
+        <h2>Coupon</h2>
+        <form id="coupon-form" aria-label="Coupon">
+          <label for="coupon">Coupon code</label>
+          <input id="coupon" autocomplete="off">
+          <button class="btn ghost" style="margin-top:10px">Apply coupon</button>
+        </form>
+        <p id="coupon-note" class="note" hidden></p>
+      </section>
+      <section class="panel">
+        <h2>Checkout</h2>
+        <form id="checkout-form" aria-label="Checkout">
+          <label for="full-name">Full name</label>
+          <input id="full-name" name="name" autocomplete="name" aria-required="true" data-required>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+          <button class="btn" id="submit-order" style="margin-top:14px;width:100%">Submit order</button>
+        </form>
+        <p id="checkout-note" class="note" role="status" hidden></p>
+      </section>
+    </aside>
+  </main>
+  <script>
+    const BUGS = new Set(/*BUGS*/[]);
+    const bug = id => BUGS.has(id);
+    const money = n => '$' + n.toFixed(2);
+    const $ = s => document.querySelector(s);
+    let products = [];
+
+    // SH-08: the clean build marks Full name as natively required.
+    if (!bug('SH-08')) $('#full-name').required = true;
+
+    function renderProducts(list) {
+      const grid = $('#products');
+      grid.replaceChildren();
+      if (!list.length) {
+        if (!bug('SH-04')) {
+          const empty = document.createElement('p');
+          empty.className = 'empty';
+          empty.textContent = 'No results found. Try a different search.';
+          grid.append(empty);
+        }
+        return;
+      }
+      for (const product of list) {
+        const card = document.createElement('article');
+        card.className = 'card';
+        const img = document.createElement('img');
+        img.src = product.image; img.alt = product.name; img.width = 240; img.height = 160;
+        const title = document.createElement('h3'); title.textContent = product.name;
+        const price = document.createElement('p'); price.className = 'price'; price.textContent = money(product.price);
+        const add = document.createElement('button');
+        add.className = 'btn'; add.textContent = 'Add to basket';
+        add.setAttribute('aria-label', 'Add ' + product.name + ' to basket');
+        add.onclick = async () => renderCart(await fetch('/api/cart', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({slug: product.slug})}).then(r => r.json()));
+        card.append(img, title, price, add);
+        grid.append(card);
+      }
+    }
+
+    function renderCart(cart) {
+      const lines = $('#cart-lines');
+      lines.replaceChildren();
+      if (!cart.items.length) lines.innerHTML = '<p class="empty">Your basket is empty.</p>';
+      for (const item of cart.items) {
+        const row = document.createElement('div'); row.className = 'cart-line';
+        const name = document.createElement('span'); name.textContent = item.name + ' × ' + item.qty;
+        const cost = document.createElement('span'); cost.textContent = money(item.price * item.qty);
+        row.append(name, cost); lines.append(row);
+      }
+      $('#cart-count').textContent = cart.count + (cart.count === 1 ? ' item' : ' items');
+      $('#cart-total').textContent = 'Total: ' + money(cart.total);
+    }
+
+    $('#search-form').onsubmit = e => {
+      e.preventDefault();
+      const q = $('#search').value.trim().toLowerCase();
+      renderProducts(products.filter(p => p.name.toLowerCase().includes(q)));
+    };
+
+    $('#coupon-form').onsubmit = async e => {
+      e.preventDefault();
+      const data = await fetch('/api/coupon', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({code: $('#coupon').value})}).then(r => r.json());
+      const note = $('#coupon-note');
+      note.hidden = false;
+      if (bug('SH-05')) {
+        // Planted: assumes every response carries a discount object.
+        note.textContent = data.discount.percent + '% discount applied.';
+        note.className = 'note';
+        return;
+      }
+      note.textContent = data.valid ? data.discount.percent + '% discount applied.' : data.message;
+      note.className = data.valid ? 'note' : 'note error';
+    };
+
+    $('#checkout-form').onsubmit = async e => {
+      e.preventDefault();
+      const button = $('#submit-order');
+      if (button.disabled) return;
+      button.disabled = true;
+      const note = $('#checkout-note');
+      try {
+        const res = await fetch('/api/orders', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name: $('#full-name').value, email: $('#email').value})});
+        const data = await res.json();
+        note.hidden = false;
+        if (res.ok || bug('SH-03')) {
+          // SH-03: the planted build shows success even when the order failed.
+          note.textContent = 'Order placed! A confirmation is on its way to your inbox.';
+          note.className = 'note';
+          if (res.ok) renderCart({items: [], count: 0, total: 0});
+        } else {
+          note.textContent = data.error || 'We could not place your order. Please try again.';
+          note.className = 'note error';
+        }
+      } finally {
+        button.disabled = false;
+      }
+    };
+
+    $('#save-basket').onclick = async () => {
+      const button = $('#save-basket');
+      if (!bug('SH-06')) { if (button.disabled) return; button.disabled = true; }
+      try {
+        const data = await fetch('/api/saved-baskets', {method: 'POST'}).then(r => r.json());
+        const note = $('#saved-note');
+        note.hidden = false;
+        note.textContent = 'Saved baskets: ' + data.saved;
+      } finally {
+        button.disabled = false;
+      }
+    };
+
+    (async () => {
+      products = (await fetch('/api/products').then(r => r.json())).products;
+      renderProducts(products);
+      renderCart(await fetch('/api/cart').then(r => r.json()));
+    })();
+  </script>
+</body>
+</html>

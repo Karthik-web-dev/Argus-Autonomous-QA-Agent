@@ -1,0 +1,26 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "attempts": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Attempts",
+      "type": "integer"
+    },
+    "successes": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Successes",
+      "type": "integer"
+    },
+    "contexts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Contexts",
+      "type": "array"
+    }
+  },
+  "title": "ReproductionResult",
+  "type": "object"
+}

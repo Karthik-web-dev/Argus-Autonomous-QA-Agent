@@ -1,0 +1,37 @@
+services:
+  sample-app:
+    build:
+      context: ./apps/sample-realworld
+    ports:
+      - "3100:3100"
+    environment:
+      BUGS: ${BUGS:-}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3100/api/health')"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+  ui:
+    build:
+      context: .
+      dockerfile: packages/ui/Dockerfile
+      args:
+        VITE_ARGUS_API_URL: http://localhost:8000
+        VITE_ARGUS_API_TOKEN: ${VITE_ARGUS_API_TOKEN:-}
+    ports:
+      - "3000:80"
+    depends_on:
+      - agent
+  agent:
+    build:
+      context: .
+      dockerfile: packages/agent/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      ARGUS_ARTIFACT_DIR: /data/artifacts
+      ARGUS_API_TOKEN: ${ARGUS_API_TOKEN:-}
+    volumes:
+      - argus-artifacts:/data/artifacts
+volumes:
+  argus-artifacts:

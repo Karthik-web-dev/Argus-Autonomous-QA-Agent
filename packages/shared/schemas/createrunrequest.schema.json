@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "url": {
+      "format": "uri",
+      "maxLength": 2083,
+      "minLength": 1,
+      "title": "Url",
+      "type": "string"
+    },
+    "spec": {
+      "minLength": 1,
+      "title": "Spec",
+      "type": "string"
+    }
+  },
+  "required": [
+    "url",
+    "spec"
+  ],
+  "title": "CreateRunRequest",
+  "type": "object"
+}

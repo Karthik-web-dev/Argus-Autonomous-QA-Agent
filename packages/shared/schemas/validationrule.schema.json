@@ -1,0 +1,33 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "field": {
+      "minLength": 1,
+      "title": "Field",
+      "type": "string"
+    },
+    "rule": {
+      "minLength": 1,
+      "title": "Rule",
+      "type": "string"
+    },
+    "message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Message"
+    }
+  },
+  "required": [
+    "field",
+    "rule"
+  ],
+  "title": "ValidationRule",
+  "type": "object"
+}
